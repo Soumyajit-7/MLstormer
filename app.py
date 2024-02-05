@@ -21,7 +21,7 @@ if choice == "Upload":
     file = st.file_uploader("Upload Your Dataset")
     if file:
         df = pd.read_csv(file)
-        df.to_csv("sourcedata.csv", index=None)
+        df.to_csv("sourcedata.csv", index=False)
         st.dataframe(df)
 
 if choice == "Profiling": 
@@ -38,9 +38,11 @@ if choice == "ML":
     
     if choice1 == "Regression":
         if st.button("Start Machine Learning:"):
+            #df[tar] = pd.to_numeric(df[tar], errors='coerce')
             reg.setup(df, target=tar, remove_outliers = True) 
             setup_df = reg.pull()
             st.info("ML Experiment Settings")
+            st.info("Please wait till your machine Learning Model gets Trained")
             st.dataframe(setup_df)
             best_model = reg.compare_models()
             compare_df = reg.pull()
@@ -48,11 +50,14 @@ if choice == "ML":
             st.dataframe(compare_df)
             best_model
             reg.save_model(best_model,"Best_Model")
+
+
     if choice1 == "Classification":
         if st.button("Start Machine Learning:"):
             cla.setup(df, target=tar, remove_outliers = True) 
             setup_df = cla.pull()
             st.info("ML Experiment Settings")
+            st.info("Please wait till your machine Learning Model gets Trained")
             st.dataframe(setup_df)
             best_model = cla.compare_models()
             compare_df = cla.pull()
@@ -80,7 +85,7 @@ if choice == "Download":
         st.download_button("Download the best Model", f,"trained_model.pkl")
 
 if choice == "Predict":
-    st.title("Make Predictions")
+    st.title("Make Predictions (BETA)")
 
     # Load the saved model
     loaded_model = cla.load_model("Best_Model")  # Assuming it's a regression model, adjust if it's a classification model
