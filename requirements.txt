@@ -1,4 +1,6 @@
-﻿upgrade-pip
+–upgrade pip
+–upgrade setuptools
+–upgrade wheel
 cython==3.0.8
 streamlit==1.31.0
 scipy==1.10.1
